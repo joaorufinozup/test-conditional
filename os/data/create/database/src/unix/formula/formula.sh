@@ -2,34 +2,22 @@
 
 runFormula() {
   echo "Hello World!"
-  echoColor "green" "My name is $RIT_INPUT_TEXT."
-
-  if [ "$RIT_INPUT_BOOLEAN" = "true" ]; then
-    echoColor "blue" "I've already created formulas using Ritchie."
-  else
-    echoColor "red" "I'm excited in creating new formulas using Ritchie."
-  fi
-
-  echoColor "yellow" "Today, I want to automate $RIT_INPUT_LIST."
-  echoColor "cyan"  "My secret is $RIT_INPUT_PASSWORD."
-}
-
-echoColor() {
-  case $1 in
-    red)
-      echo "$(printf '\033[31m')$2$(printf '\033[0m')"
-      ;;
-    green)
-      echo "$(printf '\033[32m')$2$(printf '\033[0m')"
-      ;;
-    yellow)
-      echo "$(printf '\033[33m')$2$(printf '\033[0m')"
-      ;;
-    blue)
-      echo "$(printf '\033[34m')$2$(printf '\033[0m')"
-      ;;
-    cyan)
-      echo "$(printf '\033[36m')$2$(printf '\033[0m')"
-      ;;
-    esac
+  echo "Parameters: $PARAMETERS"
+  echo "Nome aplicacao: $NOME_APLICACAO"
+  echo "Tipo navegacao: $TIPO_NAVEGACAO"
+  echo "Tipo db: $SQL_NOSQL_DB"
+  echo "DB: $TIPO_DB"
+  echo "Tamanho db: $TAMANHO_DB"
+  echo "Tipo ambiente: $TIPO_AMBIENTE"
+  echo "Tamanho dev: $TAMANHO_DEV"
+  echo "Tamanho stage: $TAMANHO_STAGE"
+  echo "Tamanho prod: $TAMANHO_PROD"
+  echo "Tipo consulta: $TIPO_CONSULTA"
+  echo "Retorno consulta: $RETORNO_CONSULTA"
+  echo "DDB name: $DDB_NAME"
+  echo "DDB pk: $DDB_PK"
+  echo "DDB name f: $DDB_NAME_F"
+  echo "DDB pk f: $DDB_PK_F"
+  echo "DDB sk f: $DDB_SK_F"
+  echo "Repository: $GITLAB_REPOSITORY"
 }

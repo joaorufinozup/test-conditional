@@ -3,49 +3,241 @@
   "templateRelease:": "{tag}",
   "inputs": [
     {
+      "label": "Path of your database formulas:",
+      "name": "parameters",
+      "required": true,
+      "tutorial": "Complete path to database formulas directory ex. (/home/user/app/data/)",
+      "type": "text",
       "cache": {
         "active": true,
-        "newLabel": "Type new value. ",
-        "qty": 3
+        "qty": 1,
+        "newLabel": "Path (ex./home/mypath/data/)"
+      }
+    },
+    {
+      "name": "nome_aplicacao",
+      "label": "Application short name (only one word allowed):",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
       },
-      "label": "Type your name: ",
-      "name": "rit_input_text",
-      "required": true,
-      "tutorial": "Your prefer name",
-      "type": "text"
+      "default": "mobile1"
     },
     {
-      "default": "false",
-      "items": [
-        "false",
-        "true"
-      ],
-      "label": "Have you ever used Ritchie? ",
-      "name": "rit_input_boolean",
-      "required": false,
-      "tutorial": "Choose one option",
-      "type": "bool"
+      "name": "tipo_navegacao",
+      "type": "text",
+      "label": "How would like to proceed?",
+      "default": "Wizard",
+      "items": ["Quick Setup", "Wizard"]
     },
     {
-      "default": "everything",
-      "items": [
-        "daily tasks",
-        "workflows",
-        "toils",
-        "everything"
-      ],
-      "label": "What do you want to automate? ",
-      "name": "rit_input_list",
-      "required": false,
-      "tutorial": "Select what you want to automate with Ritchie",
-      "type": "text"
+      "name": "sql_nosql_db",
+      "type": "text",
+      "label": "What kind of Database would you like to create: ",
+      "items": ["Relational", "NoSQL"],
+      "condition": {
+        "variable": "tipo_navegacao",
+        "operator": "==",
+        "value": "Quick Setup"
+      }
     },
     {
-      "label": "Tell us a secret: ",
-      "name": "rit_input_password",
-      "required": true,
-      "tutorial": "Type a secret",
-      "type": "password"
+      "name": "tipo_db",
+      "type": "text",
+      "label": "What is your database engine: ",
+      "items": ["PostgreSQL", "MySQL"],
+      "condition": {
+        "variable": "sql_nosql_db",
+        "operator": "==",
+        "value": "Relational"
+      }
+    },
+    {
+      "name": "tamanho_db",
+      "type": "text",
+      "label": "What size of database do you need: ",
+      "items": ["very small", "small", "medium", "large"],
+      "condition": {
+        "variable": "tipo_navegacao",
+        "operator": "==",
+        "value": "Quick Setup"
+      }
+    },
+    {
+      "name": "tipo_ambiente",
+      "type": "text",
+      "label": "For what environment is this database:",
+      "items": ["Dev", "Stage", "Prod"],
+      "condition": {
+        "variable": "tipo_navegacao",
+        "operator": "==",
+        "value": "Wizard"
+      }
+    },
+    {
+      "name": "tamanho_dev",
+      "type": "text",
+      "label": "What size of Dev environment: ",
+      "items": ["very small", "small", "medium"],
+      "condition": {
+        "variable": "tipo_ambiente",
+        "operator": "==",
+        "value": "Dev"
+      }
+    },
+    {
+      "name": "tamanho_stage",
+      "type": "text",
+      "label": "What size of Stage environment: ",
+      "items": ["small", "medium", "large"],
+      "condition": {
+        "variable": "tipo_ambiente",
+        "operator": "==",
+        "value": "Stage"
+      }
+    },
+    {
+      "name": "tamanho_prod",
+      "type": "text",
+      "label": "What size of Prod environment: ",
+      "items": ["small", "medium", "large", "very large", "extremely large", "maximum db size"],
+      "condition": {
+        "variable": "tipo_ambiente",
+        "operator": "==",
+        "value": "Prod"
+      }
+    },
+    {
+      "name": "tipo_consulta",
+      "type": "text",
+      "label": "Predictable queries: queries will always use 1 key, simple key or composed key.",
+      "items": ["Yes", "No, or I don't know"],
+      "condition": {
+        "variable": "tipo_navegacao",
+        "operator": "==",
+        "value": "Wizard"
+      }
+    },
+    {
+      "name": "retorno_consulta",
+      "type": "text",
+      "label": "Query result set is small, from 1 record to a few dozen records.",
+      "items": ["No", "Yes"],
+      "condition": {
+        "variable": "tipo_consulta",
+        "operator": "==",
+        "value": "Yes"
+      }
+    },
+    {
+      "name": "ddb_name",
+      "label": "DynamoDB table name:",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
+      },
+      "default": "mobile1",
+      "condition": {
+        "variable": "retorno_consulta",
+        "operator": "==",
+        "value": "Yes"
+      }
+    },
+    {
+      "name": "ddb_pk",
+      "label": "DynamoDB Partition Key (each query must consist of this partition key):",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
+      },
+      "default": "pk",
+      "condition": {
+        "variable": "retorno_consulta",
+        "operator": "==",
+        "value": "Yes"
+      }
+    },
+    {
+      "name": "ddb_sk",
+      "label": "DynamoDB Sort key or Range key (for each Primary key you can have several Sort Keys that can be used to search):",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
+      },
+      "default": "sk",
+      "condition": {
+        "variable": "retorno_consulta",
+        "operator": "==",
+        "value": "Yes"
+      }
+    },
+    {
+      "name": "ddb_name_f",
+      "label": "DynamoDB table name:",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
+      },
+      "default": "mobile1",
+      "condition": {
+        "variable": "sql_nosql_db",
+        "operator": "==",
+        "value": "NoSQL"
+      }
+    },
+    {
+      "name": "ddb_pk_f",
+      "label": "DynamoDB Partition Key (each query must consist of this partition key):",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
+      },
+      "default": "pk",
+      "condition": {
+        "variable": "sql_nosql_db",
+        "operator": "==",
+        "value": "NoSQL"
+      }
+    },
+    {
+      "name": "ddb_sk_f",
+      "label": "DynamoDB Sort key or Range key (for each Partition key you can have several Sort Keys that can be used to search):",
+      "type": "text",
+      "pattern": {
+        "regex": "^[A-Za-z0-9_-]*$",
+        "mismatchText": "Only letters and numbers are allowed"
+      },
+      "default": "sk",
+      "condition": {
+        "variable": "sql_nosql_db",
+        "operator": "==",
+        "value": "NoSQL"
+      }
+    },
+
+    {
+      "name": "gitlab_repository",
+      "label": "Gitlab Repository",
+      "type": "text",
+      "turorial": "Ex: gitlab.example.com/tanuki/awesome_project.git"
+    },
+    {
+      "name": "username",
+      "type": "CREDENTIAL_GITLAB_USERNAME"
+    },
+    {
+      "name": "token",
+      "type": "CREDENTIAL_GITLAB_TOKEN"
+    },
+    {
+      "name": "token",
+      "type": "CREDENTIAL_GITLAB_EMAIL"
     }
   ]
 }

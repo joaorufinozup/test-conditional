@@ -236,7 +236,7 @@
       "type": "CREDENTIAL_GITLAB_TOKEN"
     },
     {
-      "name": "token",
+      "name": "email",
       "type": "CREDENTIAL_GITLAB_EMAIL"
     }
   ]
